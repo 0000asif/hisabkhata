@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 06:35 AM
+-- Generation Time: Nov 23, 2025 at 06:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `asif_hisabkhata`
+-- Database: `db_hisabkhata`
 --
 
 -- --------------------------------------------------------
@@ -87,14 +87,85 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `installments`
+--
+
+CREATE TABLE `installments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `loan_id` bigint(20) UNSIGNED NOT NULL,
+  `member_id` bigint(20) UNSIGNED NOT NULL,
+  `due_date` date NOT NULL,
+  `amount` decimal(40,2) NOT NULL,
+  `paid_amount` decimal(40,2) NOT NULL DEFAULT 0.00,
+  `remaining_amount` decimal(40,2) NOT NULL DEFAULT 0.00,
+  `status` enum('pending','paid','partial') NOT NULL DEFAULT 'pending',
+  `paid_date` date DEFAULT NULL,
+  `transaction_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `installments`
+--
+
+INSERT INTO `installments` (`id`, `loan_id`, `member_id`, `due_date`, `amount`, `paid_amount`, `remaining_amount`, `status`, `paid_date`, `transaction_id`, `note`, `created_at`, `updated_at`) VALUES
+(1, 5, 1, '2025-11-30', 550.00, 550.00, 0.00, 'paid', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 05:02:53'),
+(2, 5, 1, '2025-12-07', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(3, 5, 1, '2025-12-14', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(4, 5, 1, '2025-12-21', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(5, 5, 1, '2025-12-28', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(6, 5, 1, '2026-01-04', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(7, 5, 1, '2026-01-11', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(8, 5, 1, '2026-01-18', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(9, 5, 1, '2026-01-25', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(10, 5, 1, '2026-02-01', 550.00, 0.00, 550.00, 'pending', NULL, NULL, NULL, '2025-11-23 04:08:07', '2025-11-23 04:08:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loans`
+--
+
+CREATE TABLE `loans` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `area_id` bigint(20) UNSIGNED NOT NULL,
+  `member_id` bigint(20) UNSIGNED NOT NULL,
+  `loan_amount` decimal(40,2) DEFAULT NULL,
+  `interest_type` enum('percent','flat') NOT NULL,
+  `interest` decimal(40,2) DEFAULT NULL,
+  `total_amount` decimal(40,2) DEFAULT NULL,
+  `installment_type` enum('daily','weekly','fortnightly','monthly','6month') NOT NULL,
+  `loan_count` int(11) NOT NULL,
+  `single_loan_amount` decimal(40,2) NOT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `loans`
+--
+
+INSERT INTO `loans` (`id`, `date`, `user_id`, `area_id`, `member_id`, `loan_amount`, `interest_type`, `interest`, `total_amount`, `installment_type`, `loan_count`, `single_loan_amount`, `note`, `created_at`, `updated_at`) VALUES
+(3, '2025-11-23', 25, 1, 1, 5000.00, 'flat', 500.00, 5500.00, 'weekly', 10, 550.00, NULL, '2025-11-23 04:06:35', '2025-11-23 04:06:35'),
+(4, '2025-11-23', 25, 1, 1, 5000.00, 'flat', 500.00, 5500.00, 'weekly', 10, 550.00, NULL, '2025-11-23 04:07:20', '2025-11-23 04:07:20'),
+(5, '2025-11-23', 25, 1, 1, 5000.00, 'flat', 500.00, 5500.00, 'weekly', 10, 550.00, NULL, '2025-11-23 04:08:06', '2025-11-23 04:08:06');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `members`
 --
 
 CREATE TABLE `members` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `area_id` bigint(20) UNSIGNED NOT NULL,
-  `branch_id` bigint(20) UNSIGNED NOT NULL,
   `joined_date` date DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `phone` varchar(255) DEFAULT NULL,
@@ -110,11 +181,22 @@ CREATE TABLE `members` (
   `member_photo` varchar(255) DEFAULT NULL,
   `nominee_photo` varchar(255) DEFAULT NULL,
   `signature` varchar(255) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `membership_fee` decimal(20,2) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Active, 2=Inactive',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `members`
+--
+
+INSERT INTO `members` (`id`, `date`, `user_id`, `area_id`, `joined_date`, `name`, `phone`, `address`, `nid`, `nid_front`, `nid_back`, `father_name`, `guarantor`, `nominee`, `nominee_phone`, `nominee_relation`, `member_photo`, `nominee_photo`, `signature`, `note`, `membership_fee`, `password`, `status`, `created_at`, `updated_at`) VALUES
+(1, '2025-11-22', 24, 1, NULL, 'Asif', '01758040074', 'বগুড়া', '6464600151', NULL, NULL, 'Abusama', 'Anamul', 'Afrin', '01739118099', 'Sister', 'member/1763805253_692188458fb29.jpg', 'nominee/1763805253_69218845922d7.jpg', NULL, NULL, 250.00, '$2y$10$EAgwxfBEwNy6HqRqRgJPC.EUvT1C1Sn69atRJvG9/kzLeAQ9RERua', 2, '2025-11-22 03:54:13', '2025-11-22 04:20:32'),
+(3, '2025-11-22', 25, 1, NULL, 'Asif', '01758040078', 'বগুড়া জেলা', '6464600152', NULL, NULL, 'Abusama', 'Anamul', 'asif', '01739118099', 'Sister', 'member/1763805472_692189200909a.jpg', 'nominee/1763805472_692189200afad.jpg', NULL, NULL, 250.00, '$2y$10$FnCr2izUD5Oc1MnnH88O.OywC04XRrW5P8L/7Fwr/u6vb/sXqEYKu', 1, '2025-11-22 03:57:52', '2025-11-22 03:57:52'),
+(5, '2025-11-22', 25, 1, NULL, 'Asif', '01758040078', 'বগুড়া জেলা', '6464600159', NULL, NULL, 'Abusama', 'Anamul', 'asif', '01739118099', 'Sister', 'member/1763805504_69218940bed94.jpg', 'nominee/1763805504_69218940c143a.jpg', NULL, NULL, 250.00, '$2y$10$vff5ZPiByKwKo3qrws2.7Oa4Ft.y7vbtT5MyPk.RPqDPJ9c4g6Ff.', 1, '2025-11-22 03:58:24', '2025-11-22 03:58:24');
 
 -- --------------------------------------------------------
 
@@ -148,7 +230,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2025_11_12_080154_create_members_table', 5),
 (14, '2025_11_12_111812_create_loans_table', 5),
 (15, '2025_11_12_112222_create_branches_table', 5),
-(16, '2026_11_12_080154_create_members_table', 6);
+(16, '2026_11_12_080154_create_members_table', 6),
+(17, '2025_11_22_085641_create_transactions_table', 7),
+(18, '2026_11_12_111812_create_loans_table', 8),
+(19, '2025_11_23_092111_create_installments_table', 9),
+(20, '2025_11_23_133008_create_savings_accounts_table', 10),
+(21, '2025_11_23_133624_create_savings_transactions_table', 10),
+(22, '2025_11_23_133953_create_savings_collections_table', 10);
 
 -- --------------------------------------------------------
 
@@ -608,6 +696,77 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `savings_accounts`
+--
+
+CREATE TABLE `savings_accounts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `member_id` bigint(20) UNSIGNED NOT NULL,
+  `balance` decimal(40,2) NOT NULL DEFAULT 0.00,
+  `type` varchar(255) NOT NULL DEFAULT 'general',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `savings_accounts`
+--
+
+INSERT INTO `savings_accounts` (`id`, `member_id`, `balance`, `type`, `created_at`, `updated_at`) VALUES
+(1, 1, 400.00, 'general', '2025-11-23 08:20:02', '2025-11-23 08:24:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `savings_collections`
+--
+
+CREATE TABLE `savings_collections` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `member_id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `amount` decimal(40,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `savings_collections`
+--
+
+INSERT INTO `savings_collections` (`id`, `user_id`, `member_id`, `date`, `amount`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, '2025-11-23', 500.00, '2025-11-23 08:20:02', '2025-11-23 08:20:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `savings_transactions`
+--
+
+CREATE TABLE `savings_transactions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `savings_account_id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `transaction_type` enum('deposit','withdraw') NOT NULL,
+  `amount` decimal(40,2) NOT NULL,
+  `balance_after` decimal(40,2) NOT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `savings_transactions`
+--
+
+INSERT INTO `savings_transactions` (`id`, `savings_account_id`, `date`, `transaction_type`, `amount`, `balance_after`, `note`, `created_at`, `updated_at`) VALUES
+(1, 1, '2025-11-23', 'deposit', 500.00, 500.00, 'Daily Deposit', '2025-11-23 08:20:02', '2025-11-23 08:20:02'),
+(2, 1, '2025-11-23', 'withdraw', 100.00, 400.00, 'Savings Withdraw', '2025-11-23 08:24:03', '2025-11-23 08:24:03');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -678,6 +837,44 @@ CREATE TABLE `teams` (
 INSERT INTO `teams` (`id`, `user_id`, `name`, `personal_team`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Avijit\'s Team', 1, '2023-09-21 02:34:04', '2023-09-21 02:34:04'),
 (2, 2, 'Admin\'s Team', 1, '2023-09-23 00:08:01', '2023-09-23 00:08:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transactions`
+--
+
+CREATE TABLE `transactions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `member_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `join_fee` decimal(20,2) DEFAULT NULL,
+  `service_charge` decimal(20,2) DEFAULT NULL,
+  `late_service_charge` decimal(20,2) DEFAULT NULL,
+  `loan_amount` decimal(20,2) DEFAULT NULL,
+  `single_loan_amount` decimal(20,2) DEFAULT NULL,
+  `loan_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Active,0=InActive',
+  `type` enum('admin','member') NOT NULL,
+  `transaction_type` enum('debit','credit') NOT NULL,
+  `balance` decimal(20,2) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `date`, `user_id`, `member_id`, `join_fee`, `service_charge`, `late_service_charge`, `loan_amount`, `single_loan_amount`, `loan_id`, `status`, `type`, `transaction_type`, `balance`, `note`, `created_at`, `updated_at`) VALUES
+(1, '2025-11-22', 2, NULL, 250.00, NULL, NULL, NULL, NULL, NULL, 1, 'admin', 'debit', NULL, NULL, '2025-11-22 03:58:24', '2025-11-22 03:58:24'),
+(2, '2025-11-22', NULL, 5, 250.00, NULL, NULL, NULL, NULL, NULL, 1, 'member', 'credit', NULL, NULL, '2025-11-22 03:58:24', '2025-11-22 03:58:24'),
+(3, '2025-11-23', NULL, 1, NULL, NULL, NULL, 5000.00, 550.00, 5, 1, 'member', 'debit', 0.00, 'Loan Disbursement', '2025-11-23 04:08:06', '2025-11-23 04:08:06'),
+(4, '2025-11-23', 2, NULL, NULL, NULL, NULL, 5000.00, 550.00, 5, 1, 'admin', 'credit', 0.00, 'Loan Disbursement', '2025-11-23 04:08:07', '2025-11-23 04:08:07'),
+(5, '2025-11-23', NULL, 1, NULL, NULL, NULL, 550.00, NULL, 5, 1, 'member', 'credit', NULL, 'Installment Payment', '2025-11-23 05:02:53', '2025-11-23 05:02:53'),
+(6, '2025-11-23', 2, NULL, NULL, NULL, NULL, 550.00, NULL, 5, 1, 'admin', 'debit', NULL, 'Installment Received from Member', '2025-11-23 05:02:53', '2025-11-23 05:02:53');
 
 -- --------------------------------------------------------
 
@@ -770,14 +967,31 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `installments`
+--
+ALTER TABLE `installments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `installments_loan_id_foreign` (`loan_id`),
+  ADD KEY `installments_member_id_foreign` (`member_id`),
+  ADD KEY `installments_transaction_id_foreign` (`transaction_id`);
+
+--
+-- Indexes for table `loans`
+--
+ALTER TABLE `loans`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `loans_user_id_foreign` (`user_id`),
+  ADD KEY `loans_area_id_foreign` (`area_id`),
+  ADD KEY `loans_member_id_foreign` (`member_id`);
+
+--
 -- Indexes for table `members`
 --
 ALTER TABLE `members`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `members_nid_unique` (`nid`),
   ADD KEY `members_user_id_foreign` (`user_id`),
-  ADD KEY `members_area_id_foreign` (`area_id`),
-  ADD KEY `members_branch_id_foreign` (`branch_id`);
+  ADD KEY `members_area_id_foreign` (`area_id`);
 
 --
 -- Indexes for table `migrations`
@@ -846,6 +1060,28 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
+-- Indexes for table `savings_accounts`
+--
+ALTER TABLE `savings_accounts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `savings_accounts_member_id_foreign` (`member_id`);
+
+--
+-- Indexes for table `savings_collections`
+--
+ALTER TABLE `savings_collections`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `savings_collections_user_id_foreign` (`user_id`),
+  ADD KEY `savings_collections_member_id_foreign` (`member_id`);
+
+--
+-- Indexes for table `savings_transactions`
+--
+ALTER TABLE `savings_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `savings_transactions_savings_account_id_foreign` (`savings_account_id`);
+
+--
 -- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
@@ -868,6 +1104,15 @@ ALTER TABLE `staff`
 ALTER TABLE `teams`
   ADD PRIMARY KEY (`id`),
   ADD KEY `teams_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `transactions_user_id_foreign` (`user_id`),
+  ADD KEY `transactions_member_id_foreign` (`member_id`),
+  ADD KEY `transaction_loan_id_foregin_id` (`loan_id`);
 
 --
 -- Indexes for table `users`
@@ -913,16 +1158,28 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `installments`
+--
+ALTER TABLE `installments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `loans`
+--
+ALTER TABLE `loans`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -955,6 +1212,24 @@ ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `savings_accounts`
+--
+ALTER TABLE `savings_accounts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `savings_collections`
+--
+ALTER TABLE `savings_collections`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `savings_transactions`
+--
+ALTER TABLE `savings_transactions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
@@ -965,6 +1240,12 @@ ALTER TABLE `staff`
 --
 ALTER TABLE `teams`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -989,11 +1270,26 @@ ALTER TABLE `branches`
   ADD CONSTRAINT `branches_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `installments`
+--
+ALTER TABLE `installments`
+  ADD CONSTRAINT `installments_loan_id_foreign` FOREIGN KEY (`loan_id`) REFERENCES `loans` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `installments_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `installments_transaction_id_foreign` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `loans`
+--
+ALTER TABLE `loans`
+  ADD CONSTRAINT `loans_area_id_foreign` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `loans_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `loans_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `members`
 --
 ALTER TABLE `members`
   ADD CONSTRAINT `members_area_id_foreign` FOREIGN KEY (`area_id`) REFERENCES `areas` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `members_branch_id_foreign` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `members_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
 --
@@ -1003,12 +1299,39 @@ ALTER TABLE `positions`
   ADD CONSTRAINT `positions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `savings_accounts`
+--
+ALTER TABLE `savings_accounts`
+  ADD CONSTRAINT `savings_accounts_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `savings_collections`
+--
+ALTER TABLE `savings_collections`
+  ADD CONSTRAINT `savings_collections_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`),
+  ADD CONSTRAINT `savings_collections_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `savings_transactions`
+--
+ALTER TABLE `savings_transactions`
+  ADD CONSTRAINT `savings_transactions_savings_account_id_foreign` FOREIGN KEY (`savings_account_id`) REFERENCES `savings_accounts` (`id`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `staff`
 --
 ALTER TABLE `staff`
   ADD CONSTRAINT `branch_id_foregin` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `staff_position_id_foreign` FOREIGN KEY (`position_id`) REFERENCES `positions` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `staff_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD CONSTRAINT `transaction_loan_id_foregin_id` FOREIGN KEY (`loan_id`) REFERENCES `loans` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transactions_member_id_foreign` FOREIGN KEY (`member_id`) REFERENCES `members` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transactions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
