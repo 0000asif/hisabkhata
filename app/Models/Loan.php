@@ -8,4 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Loan extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'area_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id');
+    }
+
+    public function installments()
+    {
+        return $this->hasMany(Installment::class);
+    }
 }

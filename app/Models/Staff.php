@@ -17,6 +17,7 @@ class Staff extends Model
         'status',
         'feild',
         'user_id',
+        'branch_id',
         'position_id',
     ];
 

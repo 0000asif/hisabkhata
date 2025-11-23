@@ -1,6 +1,6 @@
 <!-- BEGIN: Sidebar-->
 <div class="page-sidebar custom-scroll" id="sidebar">
-    <div class="sidebar-header"><a class="sidebar-brand" href="{{ URL::to('dashboard')}}">ASIFHOSSAIN</a><a
+    <div class="sidebar-header"><a class="sidebar-brand" href="{{ URL::to('dashboard') }}">ASIFHOSSAIN</a><a
             class="sidebar-brand-mini" href="index.html">AH</a><span class="sidebar-points"><span
                 class="badge badge-success badge-point mr-2"></span><span
                 class="badge badge-danger badge-point mr-2"></span><span
@@ -19,6 +19,15 @@
             </ul>
         </li> --}}
 
+
+        {{-- <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">ব্রাঞ্চসমূহ</span><i
+                    class="arrow la la-angle-right"></i></a>
+            <ul class="nav-2-level">
+                <li><a href="{{ route('branch.create') }}">ব্রাঞ্চ এড করুন</a></li>
+                <li><a href="{{ route('branch.index') }}">ব্রাঞ্চের তালিকা</a></li>
+            </ul>
+        </li> --}}
+
         <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">এলাকাসমূহ</span><i
                     class="arrow la la-angle-right"></i></a>
             <ul class="nav-2-level">
@@ -26,6 +35,7 @@
                 <li><a href="{{ route('area.index') }}">এলাকার তালিকা</a></li>
             </ul>
         </li>
+
 
         <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">পদবিসমূহ</span><i
                     class="arrow la la-angle-right"></i></a>
@@ -43,18 +53,39 @@
             </ul>
         </li>
 
+
+        <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">সদস্য</span><i
+                    class="arrow la la-angle-right"></i></a>
+            <ul class="nav-2-level">
+                <li><a href="{{ route('member.create') }}">নতুন সদস্য যুক্ত করুন</a></li>
+                <li><a href="{{ route('member.index') }}">সকল সদস্যদের তালিকা</a></li>
+                <li><a href="{{ route('member.ledger.index') }}">মেম্বার লেজার </a></li>
+            </ul>
+        </li>
+
         <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">লোনসমূহ</span><i
                     class="arrow la la-angle-right"></i></a>
             <ul class="nav-2-level">
                 <li><a href="{{ route('loan.create') }}">লোন প্রদান করুন</a></li>
                 <li><a href="{{ route('loan.index') }}">সকল লোনের তথ্য</a></li>
+                <li><a href="{{ route('collection.index') }}">লোন কালেকশন</a></li>
+                <li><a href="{{ route('loan.ledger') }}">লোন লেজার</a></li>
             </ul>
         </li>
-        <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">FDR</span><i
+
+        <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">লোন
+                    কালেকশন</span><i class="arrow la la-angle-right"></i></a>
+            <ul class="nav-2-level">
+                <li><a href="{{ route('collection.index') }}">লোন কালেকশন করুন </a></li>
+                <li><a href="{{ route('collection.all') }}">সকল কালেকশন তালিকা</a></li>
+                <li><a href="{{ route('loan.ledger') }}">লোন লেজার</a></li>
+            </ul>
+        </li>
+        <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">সেভিংস</span><i
                     class="arrow la la-angle-right"></i></a>
             <ul class="nav-2-level">
-                <li><a href="{{ route('loan.create') }}">লোন প্রদান করুন</a></li>
-                <li><a href="{{ route('loan.index') }}">সকল লোনের তথ্য</a></li>
+                <li><a href="{{ route('savings.collect.form') }}">সেভিংস কালেকশন করুন</a></li>
+                <li><a href="{{ route('savings.index') }}">সকল সেভিংস তথ্য</a></li>
             </ul>
         </li>
         <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">DPS</span><i
@@ -64,8 +95,8 @@
                 <li><a href="{{ route('loan.index') }}">সকল লোনের তথ্য</a></li>
             </ul>
         </li>
-        <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">ফি কালেকশন</span><i
-                    class="arrow la la-angle-right"></i></a>
+        <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">ফি
+                    কালেকশন</span><i class="arrow la la-angle-right"></i></a>
             <ul class="nav-2-level">
                 <li><a href="{{ route('loan.create') }}">লোন প্রদান করুন</a></li>
                 <li><a href="{{ route('loan.index') }}">সকল লোনের তথ্য</a></li>

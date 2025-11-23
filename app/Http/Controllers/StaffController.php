@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Position;
 use App\Models\Staff;
 use App\Models\User;
@@ -48,6 +49,7 @@ class StaffController extends Controller
             'status'        => 'required',
             'feild'         => 'required',
             'position_id'   => 'required|exists:positions,id',
+            'branch_id'     => 'required',
             'password'      => 'required|confirmed',
         ]);
 
@@ -67,6 +69,7 @@ class StaffController extends Controller
         $staff->feild = $request->feild;
         $staff->user_id = $user->id;
         $staff->position_id = $request->position_id;
+        $staff->branch_id = $request->branch_id;
         $staff->save();
 
 
@@ -93,7 +96,8 @@ class StaffController extends Controller
     public function edit(Staff $staff)
     {
         $positions = Position::get();
-        return view('admin.staff.form', compact('staff', 'positions'));
+        $branchs = Branch::get();
+        return view('admin.staff.form', compact('staff', 'positions', 'branchs'));
     }
 
     /**
@@ -114,6 +118,7 @@ class StaffController extends Controller
             'feild'         => 'required',
             'position_id'   => 'required|exists:positions,id',
             'password'      => 'nullable|confirmed',
+            'branch_id'     => 'required',
         ]);
 
 
@@ -132,6 +137,7 @@ class StaffController extends Controller
         $staff->status = $request->status;
         $staff->feild = $request->feild;
         $staff->position_id = $request->position_id;
+        $staff->branch_id = $request->branch_id;
         $staff->save();
         return redirect()->route('staff.index')->with('success', 'স্টাফ তথ্য সফলভাবে আপডেট হয়েছে!');
     }

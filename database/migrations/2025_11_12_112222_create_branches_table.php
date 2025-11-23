@@ -18,6 +18,7 @@ class CreateBranchesTable extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
             $table->string('name');
             $table->string('address');
+            $table->decimal('balance',20,2)->default(0);
             $table->tinyInteger('status')->comment('1 = Active, 0 = Inactive');
             $table->timestamps();
         });

@@ -14,7 +14,8 @@ class BranchController extends Controller
      */
     public function index()
     {
-        //
+        $brances = Branch::all();
+        return view('admin.branch.index', compact('brances'));
     }
 
     /**
@@ -24,7 +25,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.branch.form');
     }
 
     /**
@@ -35,7 +36,21 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=> 'required',
+            'status' => 'required',
+            'address' => 'nullable',
+            'balance' => 'required',
+            ]);
+
+            $branch = new Branch();
+            $branch->name = $request->name;
+            $branch->status = $request->status;
+            $branch->address = $request->address;
+            $branch->user_id = auth()->user()->id;
+            $branch->save();
+
+            return redirect()->route('branch.index')->with('success','Branch Created Successfully!');
     }
 
     /**
@@ -57,7 +72,7 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        //
+        return view('admin.branch.form', compact('branch'));
     }
 
     /**
@@ -69,7 +84,18 @@ class BranchController extends Controller
      */
     public function update(Request $request, Branch $branch)
     {
-        //
+        $request->validate([
+            'name'      => 'required',
+            'status'    => 'required',
+            'address'   => 'nullable',
+            ]);
+
+            $branch->name = $request->name;
+            $branch->status = $request->status;
+            $branch->address = $request->address;
+            $branch->save();
+
+            return redirect()->route('branch.index')->with('success','Branch Updated Successfully!');
     }
 
     /**
