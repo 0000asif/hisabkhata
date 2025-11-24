@@ -9,9 +9,11 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\LedgerController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\DpsPlanController;
 use App\Http\Controllers\SavingsController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\FixedDepositController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -85,6 +87,46 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/withdraw/{id}', [SavingsController::class, 'withdraw'])->name('withdraw');
     });
+
+
+    Route::get('/fd/get-rate/{months}', [FixedDepositController::class, 'getRate']);
+    Route::resource('fd', FixedDepositController::class);
+    Route::post('/fd/{id}/withdraw', [FixedDepositController::class, 'withdraw'])->name('fd.withdraw');
+
+    // FD Rate CRUD
+    Route::prefix('fd/rate')->name('fd.rate.')->group(function () {
+
+        Route::get('/', [App\Http\Controllers\FdRateController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\FdRateController::class, 'create'])->name('create');
+        Route::post('/store', [App\Http\Controllers\FdRateController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [App\Http\Controllers\FdRateController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [App\Http\Controllers\FdRateController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [App\Http\Controllers\FdRateController::class, 'destroy'])->name('delete');
+    });
+
+    // Ajax Rate
+    Route::get('/fd/get-rate/{months}', [App\Http\Controllers\FdRateController::class, 'getRate']);
+
+
+
+    // DPS PLAN
+    Route::get('/dps/plans', [DpsPlanController::class, 'planIndex'])->name('dps.plan.index');
+    Route::get('/dps/plans/create', [DpsPlanController::class, 'planCreate'])->name('dps.plan.create');
+    Route::post('/dps/plans/store', [DpsPlanController::class, 'planStore'])->name('dps.plan.store');
+
+    // DPS ACCOUNT
+    Route::get('/dps/accounts', [DpsPlanController::class, 'accountIndex'])->name('dps.account.index');
+    Route::get('/dps/accounts/create', [DpsPlanController::class, 'accountCreate'])->name('dps.account.create');
+    Route::post('/dps/accounts/store', [DpsPlanController::class, 'accountStore'])->name('dps.account.store');
+
+    // DPS DETAILS
+    Route::get('/dps/accounts/{id}', [DpsPlanController::class, 'accountShow'])->name('dps.account.show');
+
+    // DPS INSTALLMENT PAY
+    Route::post('/dps/installment/pay/{id}', [DpsPlanController::class, 'payInstallment'])->name('dps.pay');
+
+    // DPS WITHDRAW
+    Route::get('/dps/withdraw/{id}', [DpsPlanController::class, 'withdraw'])->name('dps.withdraw');
 });
 
 

@@ -19,16 +19,16 @@
     <!-- PAGE LEVEL VENDORS-->
     <link href="{{ URL::to('admin/assets/vendors/DataTables/datatables.min.css') }}" rel="stylesheet" />
     <link href="{{ URL::to('admin/assets/vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
-    <link href="{{URL::to('admin/assets/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css')}}"
+    <link href="{{ URL::to('admin/assets/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css') }}"
         rel="stylesheet" />
     <link
-        href="{{URL::to('admin/assets/vendors/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}"
+        href="{{ URL::to('admin/assets/vendors/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}"
         rel="stylesheet" />
     <link href="{{ URL::to('admin/assets/vendors/jvectormap/jquery-jvectormap-2.0.3.css') }}" rel="stylesheet" />
     <!-- THEME STYLES-->
     <link href="{{ URL::to('admin/assets/vendors/animate.css/animate.min.css') }}" rel="stylesheet" />
     <!-- THEME STYLES-->
-    <link href="{{ URL::to('admin/assets/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+    <link href="{{ URL::to('admin/assets/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ URL::to('admin/assets/vendors/multiselect/css/multi-select.css') }}" rel="stylesheet" />
     <!-- THEME STYLES-->
     <link href="{{ URL::to('admin/assets/vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet" />
@@ -108,7 +108,7 @@
                 <!-- BEGIN: Footer-->
                 <footer class="page-footer flexbox">
                     <div class="text-muted">
-                        <?php echo date('Y') ?> © <strong>copyrights</strong>. All rights reserved
+                        <?php echo date('Y'); ?> © <strong>copyrights</strong>. All rights reserved
                     </div><a class="btn btn-primary btn-rounded" href="https://facebook.com/mdasifraj.moyna"
                         target="_blank">Design &
                         Developed By ASIF
@@ -143,9 +143,8 @@
     <!-- PAGE LEVEL PLUGINS-->
     <script src="{{ URL::to('admin/assets/vendors/moment/min/moment.min.js') }}"></script>
     <script src="{{ URL::to('admin/assets/vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{URL::to('admin/assets/vendors/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-    <script
-        src="{{URL::to('admin/assets/vendors/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}">
+    <script src="{{ URL::to('admin/assets/vendors/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ URL::to('admin/assets/vendors/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}">
     </script>
     <script src="{{ URL::to('admin/assets/vendors/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ URL::to('admin/assets/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
@@ -153,7 +152,7 @@
     <script src="{{ URL::to('admin/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
     <!-- CORE SCRIPTS-->
     <script src="{{ URL::to('admin/assets/vendors/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
-    <script src="{{URL::to('admin/assets/vendors/select2/dist/js/select2.full.min.js')}}"></script>
+    <script src="{{ URL::to('admin/assets/vendors/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ URL::to('admin/assets/vendors/multiselect/js/jquery.multi-select.js') }}"></script>
     <!-- CORE SCRIPTS-->
     <script src="{{ URL::to('//cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js') }}"></script>
@@ -199,9 +198,9 @@
 
         formSuccess = function(responseText, statusText, xhr, $form) {
             // swal({
-              //  title: "Success",
-              //  text: responseText.message,
-              //  icon: "success"
+            //  title: "Success",
+            //  text: responseText.message,
+            //  icon: "success"
             // });
             // removeLoadingButton($form.find("button[type=submit]"));
 
@@ -212,9 +211,9 @@
 
             var obj = JSON.parse(xhr.responseText);
             //swal({
-              //  title: "Errors!",
-               // text: obj.message,
-               // icon: "error"
+            //  title: "Errors!",
+            // text: obj.message,
+            // icon: "error"
             //});
 
             swal("Errors!", obj.message, "error");
@@ -251,7 +250,6 @@
                 );
             }
         };
-
     </script>
     <script>
         $(function() {

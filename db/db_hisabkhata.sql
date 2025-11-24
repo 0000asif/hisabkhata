@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2025 at 06:39 PM
+-- Generation Time: Nov 24, 2025 at 05:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -71,6 +71,87 @@ INSERT INTO `branches` (`id`, `user_id`, `name`, `address`, `balance`, `status`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `dps_accounts`
+--
+
+CREATE TABLE `dps_accounts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `start_date` date NOT NULL,
+  `member_id` bigint(20) UNSIGNED NOT NULL,
+  `plan_id` bigint(20) UNSIGNED NOT NULL,
+  `monthly_deposit` decimal(10,2) NOT NULL,
+  `duration_months` int(11) NOT NULL,
+  `interest_rate` decimal(5,2) NOT NULL,
+  `total_deposit` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `mature_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `mature_date` date DEFAULT NULL,
+  `status` enum('running','matured','closed') NOT NULL DEFAULT 'running',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `dps_accounts`
+--
+
+INSERT INTO `dps_accounts` (`id`, `start_date`, `member_id`, `plan_id`, `monthly_deposit`, `duration_months`, `interest_rate`, `total_deposit`, `mature_amount`, `mature_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, '2025-11-24', 1, 1, 120.00, 6, 10.00, 720.00, 792.00, '2026-05-24', 'running', '2025-11-24 07:31:38', '2025-11-24 07:31:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dps_installments`
+--
+
+CREATE TABLE `dps_installments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `dps_id` bigint(20) UNSIGNED NOT NULL,
+  `due_date` date NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `status` enum('pending','paid') NOT NULL DEFAULT 'pending',
+  `paid_amount` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `dps_installments`
+--
+
+INSERT INTO `dps_installments` (`id`, `dps_id`, `due_date`, `amount`, `status`, `paid_amount`, `created_at`, `updated_at`) VALUES
+(1, 1, '2025-12-24', 120.00, 'pending', 0.00, '2025-11-24 07:31:38', '2025-11-24 07:31:38'),
+(2, 1, '2026-01-24', 120.00, 'pending', 0.00, '2025-11-24 07:31:38', '2025-11-24 07:31:38'),
+(3, 1, '2026-02-24', 120.00, 'pending', 0.00, '2025-11-24 07:31:38', '2025-11-24 07:31:38'),
+(4, 1, '2026-03-24', 120.00, 'pending', 0.00, '2025-11-24 07:31:38', '2025-11-24 07:31:38'),
+(5, 1, '2026-04-24', 120.00, 'pending', 0.00, '2025-11-24 07:31:38', '2025-11-24 07:31:38'),
+(6, 1, '2026-05-24', 120.00, 'pending', 0.00, '2025-11-24 07:31:38', '2025-11-24 07:31:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dps_plans`
+--
+
+CREATE TABLE `dps_plans` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `duration_months` int(11) NOT NULL,
+  `monthly_deposit` decimal(10,2) NOT NULL,
+  `interest_rate` decimal(5,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `dps_plans`
+--
+
+INSERT INTO `dps_plans` (`id`, `name`, `duration_months`, `monthly_deposit`, `interest_rate`, `created_at`, `updated_at`) VALUES
+(1, 'Asif', 6, 120.00, 10.00, '2025-11-24 07:28:06', '2025-11-24 07:28:06');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -83,6 +164,79 @@ CREATE TABLE `failed_jobs` (
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fd_rates`
+--
+
+CREATE TABLE `fd_rates` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `min_months` int(11) NOT NULL,
+  `max_months` int(11) NOT NULL,
+  `rate` decimal(5,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fixed_deposits`
+--
+
+CREATE TABLE `fixed_deposits` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `member_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `area_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `deposit_amount` decimal(10,2) NOT NULL,
+  `interest_rate` decimal(10,2) NOT NULL,
+  `duration_months` int(11) NOT NULL,
+  `mature_amount` decimal(10,2) NOT NULL,
+  `mature_date` date NOT NULL,
+  `status` enum('running','matured','withdrawn') NOT NULL DEFAULT 'running',
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `fixed_deposits`
+--
+
+INSERT INTO `fixed_deposits` (`id`, `date`, `member_id`, `user_id`, `area_id`, `deposit_amount`, `interest_rate`, `duration_months`, `mature_amount`, `mature_date`, `status`, `note`, `created_at`, `updated_at`) VALUES
+(1, '2025-11-24', 3, 2, 1, 500.00, 0.00, 5, 500.00, '2026-04-24', 'running', 'this is note', '2025-11-24 05:04:43', '2025-11-24 05:04:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fixed_deposit_transactions`
+--
+
+CREATE TABLE `fixed_deposit_transactions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `fd_id` bigint(20) UNSIGNED NOT NULL,
+  `member_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `transaction_type` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `fixed_deposit_transactions`
+--
+
+INSERT INTO `fixed_deposit_transactions` (`id`, `date`, `fd_id`, `member_id`, `user_id`, `amount`, `transaction_type`, `type`, `note`, `created_at`, `updated_at`) VALUES
+(1, '2025-11-24', 1, 3, NULL, 500.00, 'debit', 'member', 'FD Opening', '2025-11-24 05:04:43', '2025-11-24 05:04:43'),
+(2, '2025-11-24', 1, NULL, 2, 500.00, 'credit', 'admin', 'FD Received', '2025-11-24 05:04:43', '2025-11-24 05:04:43');
 
 -- --------------------------------------------------------
 
@@ -236,7 +390,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (19, '2025_11_23_092111_create_installments_table', 9),
 (20, '2025_11_23_133008_create_savings_accounts_table', 10),
 (21, '2025_11_23_133624_create_savings_transactions_table', 10),
-(22, '2025_11_23_133953_create_savings_collections_table', 10);
+(22, '2025_11_23_133953_create_savings_collections_table', 10),
+(23, '2025_11_24_084650_create_fixed_deposits_table', 11),
+(24, '2025_11_24_084847_create_fixed_deposit_transactions_table', 11),
+(25, '2025_11_24_085403_create_fd_rates_table', 11),
+(26, '2025_11_24_131827_create_dps_plans_table', 12),
+(27, '2025_11_24_131840_create_dps_accounts_table', 12),
+(28, '2025_11_24_131931_create_dps_installments_table', 12);
 
 -- --------------------------------------------------------
 
@@ -713,7 +873,8 @@ CREATE TABLE `savings_accounts` (
 --
 
 INSERT INTO `savings_accounts` (`id`, `member_id`, `balance`, `type`, `created_at`, `updated_at`) VALUES
-(1, 1, 400.00, 'general', '2025-11-23 08:20:02', '2025-11-23 08:24:03');
+(1, 1, 400.00, 'general', '2025-11-23 08:20:02', '2025-11-23 08:24:03'),
+(2, 5, 1000.00, 'general', '2025-11-24 02:24:48', '2025-11-24 02:24:48');
 
 -- --------------------------------------------------------
 
@@ -736,7 +897,8 @@ CREATE TABLE `savings_collections` (
 --
 
 INSERT INTO `savings_collections` (`id`, `user_id`, `member_id`, `date`, `amount`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, '2025-11-23', 500.00, '2025-11-23 08:20:02', '2025-11-23 08:20:02');
+(1, 2, 1, '2025-11-23', 500.00, '2025-11-23 08:20:02', '2025-11-23 08:20:02'),
+(2, 2, 5, '2025-11-24', 1000.00, '2025-11-24 02:24:48', '2025-11-24 02:24:48');
 
 -- --------------------------------------------------------
 
@@ -762,7 +924,8 @@ CREATE TABLE `savings_transactions` (
 
 INSERT INTO `savings_transactions` (`id`, `savings_account_id`, `date`, `transaction_type`, `amount`, `balance_after`, `note`, `created_at`, `updated_at`) VALUES
 (1, 1, '2025-11-23', 'deposit', 500.00, 500.00, 'Daily Deposit', '2025-11-23 08:20:02', '2025-11-23 08:20:02'),
-(2, 1, '2025-11-23', 'withdraw', 100.00, 400.00, 'Savings Withdraw', '2025-11-23 08:24:03', '2025-11-23 08:24:03');
+(2, 1, '2025-11-23', 'withdraw', 100.00, 400.00, 'Savings Withdraw', '2025-11-23 08:24:03', '2025-11-23 08:24:03'),
+(3, 2, '2025-11-24', 'deposit', 1000.00, 1000.00, 'Daily Deposit', '2025-11-24 02:24:48', '2025-11-24 02:24:48');
 
 -- --------------------------------------------------------
 
@@ -960,11 +1123,47 @@ ALTER TABLE `branches`
   ADD KEY `branches_user_id_foreign` (`user_id`);
 
 --
+-- Indexes for table `dps_accounts`
+--
+ALTER TABLE `dps_accounts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dps_installments`
+--
+ALTER TABLE `dps_installments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dps_plans`
+--
+ALTER TABLE `dps_plans`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `fd_rates`
+--
+ALTER TABLE `fd_rates`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fixed_deposits`
+--
+ALTER TABLE `fixed_deposits`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fixed_deposit_transactions`
+--
+ALTER TABLE `fixed_deposit_transactions`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `installments`
@@ -1152,10 +1351,46 @@ ALTER TABLE `branches`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `dps_accounts`
+--
+ALTER TABLE `dps_accounts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `dps_installments`
+--
+ALTER TABLE `dps_installments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `dps_plans`
+--
+ALTER TABLE `dps_plans`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `fd_rates`
+--
+ALTER TABLE `fd_rates`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `fixed_deposits`
+--
+ALTER TABLE `fixed_deposits`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `fixed_deposit_transactions`
+--
+ALTER TABLE `fixed_deposit_transactions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `installments`
@@ -1179,7 +1414,7 @@ ALTER TABLE `members`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -1215,19 +1450,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `savings_accounts`
 --
 ALTER TABLE `savings_accounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `savings_collections`
 --
 ALTER TABLE `savings_collections`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `savings_transactions`
 --
 ALTER TABLE `savings_transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `staff`

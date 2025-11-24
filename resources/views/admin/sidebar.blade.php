@@ -88,13 +88,40 @@
                 <li><a href="{{ route('savings.index') }}">সকল সেভিংস তথ্য</a></li>
             </ul>
         </li>
-        <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">DPS</span><i
-                    class="arrow la la-angle-right"></i></a>
+
+
+        <!-- FD -->
+        <li>
+            <a href="javascript:;">
+                <i class="sidebar-item-icon ft-anchor"></i>
+                <span class="nav-label">FDR (ফিক্সড ডিপোজিট)</span>
+                <i class="arrow la la-angle-right"></i>
+            </a>
             <ul class="nav-2-level">
-                <li><a href="{{ route('loan.create') }}">লোন প্রদান করুন</a></li>
-                <li><a href="{{ route('loan.index') }}">সকল লোনের তথ্য</a></li>
+                <li><a href="{{ route('fd.create') }}">নতুন FD তৈরি</a></li>
+                <li><a href="{{ route('fd.index') }}">FD তালিকা</a></li>
+                {{-- <li><a href="{{ route('fd.rate.index') }}">FD রেট ম্যানেজমেন্ট</a></li> --}}
             </ul>
         </li>
+
+
+        <li>
+            <a href="javascript:;">
+                <i class="sidebar-item-icon ft-layers"></i>
+                <span class="nav-label">DPS সিস্টেম</span>
+                <i class="arrow la la-angle-right"></i>
+            </a>
+            <ul class="nav-2-level">
+
+                <li><a href="{{ route('dps.plan.index') }}">DPS প্লানসমূহ</a></li>
+
+                <li><a href="{{ route('dps.account.create') }}">নতুন DPS খুলুন</a></li>
+
+                <li><a href="{{ route('dps.account.index') }}">DPS অ্যাকাউন্টসমূহ</a></li>
+
+            </ul>
+        </li>
+
         <li><a href="javascript:;"><i class="sidebar-item-icon ft-anchor"></i><span class="nav-label">ফি
                     কালেকশন</span><i class="arrow la la-angle-right"></i></a>
             <ul class="nav-2-level">

@@ -4,10 +4,7 @@
     <div class="page-heading">
         <div class="page-breadcrumb">
             <h1 class="page-title">Dashboard</h1><br>
-            @can('view category')
-                <br>
-                <h1 class="page-title">Category</h1>
-            @endcan
+
 
         </div>
         <div class="subheader_daterange" id="subheader_daterange"><span class="subheader-daterange-label"><span
