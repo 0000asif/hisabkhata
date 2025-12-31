@@ -1,0 +1,7 @@
+[09-Dec-2025 08:06:46 UTC] PHP Fatal error:  Uncaught RuntimeException: Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 8.1.32. in /home/nazmulco/public_html/vendor/composer/platform_check.php:26
+Stack trace:
+#0 /home/nazmulco/public_html/vendor/composer/autoload_real.php(25): require()
+#1 /home/nazmulco/public_html/vendor/autoload.php(22): ComposerAutoloaderInit3c7701c75ba1b820cbe5058786a0397d::getLoader()
+#2 /home/nazmulco/public_html/index.php(34): require('/home/nazmulco/...')
+#3 {main}
+  thrown in /home/nazmulco/public_html/vendor/composer/platform_check.php on line 26

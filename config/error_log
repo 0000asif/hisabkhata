@@ -1,0 +1,4 @@
+[16-Dec-2025 18:35:18 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/nazmulco/public_html/config/mail.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/nazmulco/public_html/config/mail.php on line 16
